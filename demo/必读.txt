@@ -1,0 +1,104 @@
+﻿1、详询信息服务端
+	主要包括接口服务和后台管理
+	a、服务端的后台管理，web采用开源dwz框架，启动工程可访问后台web界面
+	b、服务端的接口服务，接收android客户端请求并响应json格式数据
+	
+2、包结构
+	a、src/main/java源代码文件夹
+	
+		com.xx.demo.web.action.admin 后台管理的Action
+		com.xx.demo.web.action.base Action基类
+		
+		com.xx.demo.biz.logic 后台管理服务接口
+		com.xx.demo.biz.logic.impl 后台管理服务实现
+		com.xx.demo.biz.service 对andorid提供的接口服务
+		com.xx.demo.biz.service.impl 对andorid提供的接口服务实现
+		
+		com.xx.demo.dao 数据库操作接口
+		com.xx.demo.dao.impl 数据库操作接口实现
+		
+		com.xx.demo.model.pojo 业务Bean
+		com.xx.demo.model.resp 重新组装pojo数据，响应给android的数据
+		com.xx.demo.dao.mapper.sessionfactory.DefaultSessionFactory MyBatis session工程
+		com.xx.demo.model.enums 枚举信息，如：响应给客户端android的状态代码
+		
+		com.xx.demo.redis 采用redis做缓存，缓存调用接口StorageLogic
+		com.xx.demo.common.utils 工具类
+	
+		com.xx.demo.web.action.demo 对android提供的Action
+		com.xx.demo.web.filter 过滤器
+		com.xx.demo.web.interceptor struts2拦截器
+		com.xx.demo.web.listener 监听
+	
+	b、src/main/resources源代码文件夹
+	
+		com.xx.demo.dao.mapper.* 数据库配置信息、Mybatis映射信息
+		log4j.properties 日志文件信息
+		struts.xml struts2配置文件
+		config.properties系统配置文件
+	c、src/main/test源代码文件夹
+		在此文件夹内做单元测试
+	
+	d、docs文件夹
+		工程文档信息
+	e、WebContent页面信息
+		admin 后台管理页面，包含登陆，首页等后台管理信息
+		common 公用信息
+		designer dwz框架依赖静态资源
+
+3、android调用服务端服务接口
+	详见单元测试类：WordsCatActionTest.testGetWordsCatByCondition()方法
+	
+	public void testGetWordsCatByCondition() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("retNums", "2");
+        params.put("orderField", "addtime");
+        params.put("orderDirection", "asc");
+        TwoTuple<Integer, String> result = HttpUtil.sendHTTPByPost(
+                "http://127.0.0.1:8080/demo/wordsCat/getWordsCatByCondition", params, null);
+        System.out.println(result.getSecond());
+    }
+
+4、服务端响应android的json格式
+	成功： {
+				"result":0,
+				"msg":"ok",
+				"dataList":
+				[
+					{
+						"wid":2,
+						"name":"分类1",
+						"comment":"分类1",
+						"addtime":1407141832000
+					},
+					{"wid":3,
+					"name":"分类2",
+					"comment":"分类2",
+					"addtime":1407204259000
+					}
+				]
+			}
+	失败：{
+			"result":1003,
+			"msg":"系统错误"
+		  }
+	
+5、注意
+	调用*Logic、*Service、*Dao要用相对应的工厂类，如： LogicFactory.getWordsCatLogic()获取*Logic
+	后台Action和接口服务Action包记得分开
+	pojo和数据库表映射，请看WordCat.table()方法
+	dwz框架请参看 j-ui.com
+	
+6、部署Demo
+	a、在mysql中，创建数据库：demo，名称自己取，工程的数据库配置在DefaultDbConfig.properties
+	b、部署到tomcat并启动
+	c、访问并登陆 http://localhost:8080/demo/admin/login.jsp,登陆验证还没做。
+	
+
+
+阿敏老师
+com.xx.demo.model.resp 重新组装pojo数据，响应给android的数据（干嘛要重新组装，不是说返回json对象就可以）
+阿敏老师
+2014/8/22 8:36:56
+因为 你从数据库获取的数据， 可能只需要返回有限的几个字段，所以需要重新组装
+

@@ -1,0 +1,47 @@
+项目demo
+不用动的包：
+	com.xx.demo.common.utils
+	com.xx.demo.dao.mapper.sessionfactory
+	com.xx.demo.model.enums
+	com.xx.demo.redis
+	com.xx.demo.web.action.base
+	com.xx.demo.web.filter
+	com.xx.demo.web.interceptor
+	com.xx.demo.web.listener
+
+要修改的地方：
+	com.xx.demo.biz.logic包下
+		LogicFactory中的getxxxxLogic
+		新建xxxxLogic
+	com.xx.demo.biz.logic.impl包下
+		xxxxLogicImpl中的xxxxLogicImpl
+	com.xx.demo.biz.service
+		ServiceFactory中的xxxxService
+		新建xxxxService
+	com.xx.demo.biz.service.impl
+		新建xxxxServiceimpl
+	com.xx.demo.dao
+		DaoFactory中建立xxxxDao
+		新建xxxxDao
+	com.xx.demo.dao.impl
+		新建xxxxDaoImpl
+	com.xx.demo.model.pojo
+		新建xxxx
+	com.xx.demo.model.resp
+		新建xxxxRes
+	com.xx.demo.web.action.admin
+		新建AdminxxxxAction
+	com.xx.demo.web.action.demo
+		新建xxxxAction
+src/test/java
+	com.xx.demo.web.action
+		新建xxxxActionTest
+src/main/resources
+	com.xx.demo.dao.mapper.config
+		修改DefaultDbConfig.xml下2个地方（有标注）
+	创建包com.xx.demo.dao.mapper.xxxx
+		里面创建WordsCatMapper.xml
+	修改struts.xml
+webContent/admin下建立xxxx文件夹
+	
+		
